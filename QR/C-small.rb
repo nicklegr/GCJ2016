@@ -64,20 +64,6 @@ def base_n(v, base)
   ret
 end
 
-def divisor(v)
-  if (v & 1) == 0
-    2
-  elsif v % 3 == 0
-    3
-  elsif v % 5 == 0
-    5
-  elsif v % 7 == 0
-    7
-  else
-    nil
-  end
-end
-
 # for i in 2..10
 #   ppd base_n(0b1001, i)
 # end
@@ -106,12 +92,12 @@ cases = readline().to_i
 
     ok = true
     for base in 2..10
-      d = divisor(base_n(coin, base))
-      if !d
+      factors = base_n(coin, base).prime_division(Prime::EratosthenesGenerator.new)
+      if factors.size == 1
         ok = false
         break
       end
-      divisors << d
+      divisors << factors[0][0]
     end
 
     if ok
