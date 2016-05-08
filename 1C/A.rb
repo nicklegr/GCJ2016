@@ -84,12 +84,31 @@ cases = readline().to_i
 (1 .. cases).each do |case_index|
   n = ri
   ps = ris
+ppd ps
 
   chars = ("A".."Z").to_a
 
   ans = []
   count = ps.inject(:+)
   while count != 0
+    not_zero = ps.select{|e| e != 0}
+    not_zero_index = []
+    ps.each_with_index do |e, i|
+      if e != 0
+        not_zero_index << i
+      end
+    end
+
+    if not_zero.size == 2
+      if not_zero[0] == not_zero[1]
+        ans << "#{chars[not_zero_index[0]]}#{chars[not_zero_index[1]]}"
+        ps[not_zero_index[0]] -= 1
+        ps[not_zero_index[1]] -= 1
+        count -= 2
+        next
+      end
+    end
+
     if count == 2
       s = ""
       for i in 0...ps.size
@@ -116,6 +135,13 @@ cases = readline().to_i
       ans << chars[max_i]
       ps[max_i] -= 1
       count -= 1
+    end
+
+    # check
+ppd ps
+    total = ps.inject(:+)
+    ps.each do |e|
+      raise if e.to_f / total > 0.5
     end
   end
 
