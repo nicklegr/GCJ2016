@@ -52,6 +52,30 @@ def rws(count)
   words
 end
 
+class Integer
+  def popcount32
+    bits = self
+    bits = (bits & 0x55555555) + (bits >>  1 & 0x55555555)
+    bits = (bits & 0x33333333) + (bits >>  2 & 0x33333333)
+    bits = (bits & 0x0f0f0f0f) + (bits >>  4 & 0x0f0f0f0f)
+    bits = (bits & 0x00ff00ff) + (bits >>  8 & 0x00ff00ff)
+    return (bits & 0x0000ffff) + (bits >> 16 & 0x0000ffff)
+  end
+
+  def combination(k)
+    self.factorial/(k.factorial*(self-k).factorial)
+  end
+
+  def permutation(k)
+    self.factorial/(self-k).factorial
+  end
+
+  def factorial
+    return 1 if self == 0
+    (1..self).inject(:*)
+  end
+end
+
 # main
 t_start = Time.now
 
